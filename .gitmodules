@@ -1,0 +1,3 @@
+[submodule "tmc-deploy"]
+	path = tmc-deploy
+	url = https://github.com/testmycode/tmc-deploy.git
