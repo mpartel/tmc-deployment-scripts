@@ -9,6 +9,19 @@ PLUGIN_REPO = 'git://github.com/testmycode/tmc-netbeans.git'
 
 FileUtils.mkdir_p(WORK_DIR)
 
+
+TmcDeploy.deployment('tmc-netbeans_hy', :work_dir => WORK_DIR) do |name|
+    repo = git_clone_or_open(name, PLUGIN_REPO)
+    repo.fetch('origin').reset_hard('0.3.2').clean
+    build_tmc_nb_plugin(name,
+        :tailoring_file => '../tailoring/HyTailoring.java',
+        :netbeans_dir => NB_DIR
+    )
+    FileUtils.mkdir_p(UPDATE_SITE + '/' + name)
+    replace_dir_quickly(name + '/build/updates', UPDATE_SITE + '/' + name)
+end
+
+
 TmcDeploy.deployment('tmc-netbeans_mooc_test', :work_dir => WORK_DIR) do |name|
     repo = git_clone_or_open(name, PLUGIN_REPO)
     repo.fetch('origin').reset_hard('0.3.2').clean
@@ -19,5 +32,6 @@ TmcDeploy.deployment('tmc-netbeans_mooc_test', :work_dir => WORK_DIR) do |name|
     FileUtils.mkdir_p(UPDATE_SITE + '/' + name)
     replace_dir_quickly(name + '/build/updates', UPDATE_SITE + '/' + name)
 end
+
 
 TmcDeploy.main(ARGV)
