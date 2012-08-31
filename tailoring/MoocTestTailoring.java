@@ -3,7 +3,7 @@ package fi.helsinki.cs.tmc.tailoring;
 public class MoocTestTailoring extends DefaultTailoring {
     @Override
     public String getDefaultServerUrl() {
-        return "http://tmc.mooc.fi/test";
+        return "";
     }
     
     @Override
