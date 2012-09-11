@@ -12,7 +12,7 @@ FileUtils.mkdir_p(WORK_DIR)
 
 TmcDeploy.deployment('tmc-netbeans_hy', :work_dir => WORK_DIR) do |name|
     repo = git_clone_or_open(name, PLUGIN_REPO)
-    repo.fetch('origin').reset_hard('0.3.3').clean
+    repo.fetch('origin').reset_hard('0.3.4').clean
     build_tmc_nb_plugin(name,
         :tailoring_file => '../tailoring/HyTailoring.java',
         :netbeans_dir => NB_DIR
@@ -24,7 +24,7 @@ end
 
 TmcDeploy.deployment('tmc-netbeans_mooc_test', :work_dir => WORK_DIR) do |name|
     repo = git_clone_or_open(name, PLUGIN_REPO)
-    repo.fetch('origin').reset_hard('0.3.3').clean
+    repo.fetch('origin').reset_hard('0.3.4').clean
     build_tmc_nb_plugin(name,
         :tailoring_file => '../tailoring/MoocTestTailoring.java',
         :netbeans_dir => NB_DIR
@@ -32,6 +32,9 @@ TmcDeploy.deployment('tmc-netbeans_mooc_test', :work_dir => WORK_DIR) do |name|
     FileUtils.mkdir_p(UPDATE_SITE + '/' + name)
     replace_dir_quickly(name + '/build/updates', UPDATE_SITE + '/' + name)
 end
+
+#TODO: when making a mooc deployment, check its tailoring file carefully.
+# Remember at least getAvailableErrorMsgLocales, getDefaultErrorMsgLocale and import java.util.Locale;
 
 
 TmcDeploy.main(ARGV)
