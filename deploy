@@ -12,7 +12,7 @@ FileUtils.mkdir_p(WORK_DIR)
 
 TmcDeploy.deployment('tmc-netbeans_hy', :work_dir => WORK_DIR) do |name|
     repo = git_clone_or_open(name, PLUGIN_REPO)
-    repo.fetch('origin').reset_hard('0.3.4').clean
+    repo.fetch('origin').reset_hard('0.3.8').clean
     build_tmc_nb_plugin(name,
         :tailoring_file => '../tailoring/HyTailoring.java',
         :netbeans_dir => NB_DIR
