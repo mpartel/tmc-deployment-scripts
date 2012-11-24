@@ -24,10 +24,11 @@ end
 
 TmcDeploy.deployment('tmc-netbeans_mooc_test', :work_dir => WORK_DIR) do |name|
     repo = git_clone_or_open(name, PLUGIN_REPO)
-    repo.fetch('origin').reset_hard('0.3.10').clean
+    repo.fetch('origin').reset_hard('0.3.11').clean
     build_tmc_nb_plugin(name,
         :tailoring_file => '../tailoring/MoocTestTailoring.java',
-        :netbeans_dir => NB_DIR
+        :netbeans_dir => NB_DIR,
+        :nbplatform_name => 'nb72'
     )
     FileUtils.mkdir_p(UPDATE_SITE + '/' + name)
     replace_dir_quickly(name + '/build/updates', UPDATE_SITE + '/' + name)
