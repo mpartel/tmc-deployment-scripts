@@ -4,38 +4,36 @@ require File.dirname(__FILE__) + '/tmc-deploy/tmc_deploy.rb'
 
 require './site.rb'
 
-WORK_DIR = File.dirname(__FILE__) + '/work'
+WORK_DIR = File.realpath(File.dirname(__FILE__)) + '/work'
+STAGING_DIR = WORK_DIR + '/staging'
 PLUGIN_REPO = 'git://github.com/testmycode/tmc-netbeans.git'
 
+FileUtils.rm_rf(WORK_DIR)
 FileUtils.mkdir_p(WORK_DIR)
+FileUtils.rm_rf(STAGING_DIR)
+FileUtils.mkdir_p(STAGING_DIR)
 
-
-TmcDeploy.deployment('tmc-netbeans_hy', :work_dir => WORK_DIR) do |name|
-    repo = git_clone_or_open(name, PLUGIN_REPO)
-    repo.fetch('origin').reset_hard('0.3.8').clean
-    build_tmc_nb_plugin(name,
-        :tailoring_file => '../tailoring/HyTailoring.java',
-        :netbeans_dir => NB_DIR
-    )
-    FileUtils.mkdir_p(UPDATE_SITE + '/' + name)
-    replace_dir_quickly(name + '/build/updates', UPDATE_SITE + '/' + name)
+def standard_deployment(deployment_name, version, tailoring_file)
+  TmcDeploy.deployment(deployment_name, :work_dir => WORK_DIR) do |name|
+      repo = git_clone(name, PLUGIN_REPO)
+      repo.fetch('origin').reset_hard(version).clean
+      build_tmc_nb_plugin(name,
+          :tailoring_file => "../tailoring/#{tailoring_file}",
+          :netbeans_dir => NB_DIR,
+          :nbplatform_name => 'nb72',
+          :zip => true,
+          :installers => true,
+          :pack200 => false #FIXME
+      )
+      stage_nb_plugin(name, STAGING_DIR)
+      FileUtils.mkdir_p(UPDATE_SITE + '/' + name)
+      move_dir_over(STAGING_DIR + '/updates', UPDATE_SITE + '/' + name)
+  end
 end
 
-
-TmcDeploy.deployment('tmc-netbeans_mooc_test', :work_dir => WORK_DIR) do |name|
-    repo = git_clone_or_open(name, PLUGIN_REPO)
-    repo.fetch('origin').reset_hard('0.3.11').clean
-    build_tmc_nb_plugin(name,
-        :tailoring_file => '../tailoring/MoocTestTailoring.java',
-        :netbeans_dir => NB_DIR,
-        :nbplatform_name => 'nb72'
-    )
-    FileUtils.mkdir_p(UPDATE_SITE + '/' + name)
-    replace_dir_quickly(name + '/build/updates', UPDATE_SITE + '/' + name)
-end
-
-#TODO: when making a mooc deployment, check its tailoring file carefully.
-# Remember at least getAvailableErrorMsgLocales, getDefaultErrorMsgLocale and import java.util.Locale;
-
+standard_deployment('tmc-netbeans_hy', '0.3.11', 'HyTailoring.java')
+standard_deployment('tmc-netbeans_mooc', '0.3.11', 'MoocTailoring.java')
+standard_deployment('tmc-netbeans_mooc_test', '0.3.11', 'MoocTestTailoring.java')
+standard_deployment('tmc-netbeans_pk', '0.3.11', 'PkTailoring.java')
 
 TmcDeploy.main(ARGV)
