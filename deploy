@@ -23,7 +23,7 @@ def standard_deployment(deployment_name, version, tailoring_file)
           :nbplatform_name => 'nb72',
           :zip => true,
           :installers => true,
-          :pack200 => false #FIXME
+          :pack200 => true
       )
       stage_nb_plugin(name, STAGING_DIR)
       FileUtils.mkdir_p(UPDATE_SITE + '/' + name)
