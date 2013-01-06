@@ -19,8 +19,9 @@ def standard_deployment(deployment_name, version, tailoring_file)
       repo.fetch('origin').reset_hard(version).clean
       build_tmc_nb_plugin(name,
           :tailoring_file => "../tailoring/#{tailoring_file}",
+          :version => version,
           :netbeans_dir => NB_DIR,
-          :nbplatform_name => 'nb72',
+          :nbplatform_name => 'nb721',
           :zip => true,
           :installers => true,
           :pack200 => true
@@ -31,9 +32,9 @@ def standard_deployment(deployment_name, version, tailoring_file)
   end
 end
 
-standard_deployment('tmc-netbeans_hy', '0.3.11', 'HyTailoring.java')
-standard_deployment('tmc-netbeans_mooc', '0.3.11', 'MoocTailoring.java')
-standard_deployment('tmc-netbeans_mooc_test', '0.3.11', 'MoocTestTailoring.java')
-standard_deployment('tmc-netbeans_pk', '0.3.11', 'PkTailoring.java')
+standard_deployment('tmc-netbeans', '0.3.12', 'GenericTailoring.java')
+standard_deployment('tmc-netbeans_hy', '0.3.12', 'HyTailoring.java')
+standard_deployment('tmc-netbeans_mooc', '0.3.12', 'MoocTailoring.java')
+standard_deployment('tmc-netbeans_pk', '0.3.12', 'PkTailoring.java')
 
 TmcDeploy.main(ARGV)
