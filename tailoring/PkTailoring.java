@@ -5,7 +5,7 @@ import java.util.Locale;
 public class PkTailoring extends DefaultTailoring {
     @Override
     public String getDefaultServerUrl() {
-        return "http://tmc.mooc.fi/pk";
+        return "http://tmc.mooc.fi/peliohjelmointi";
     }
     
     @Override
