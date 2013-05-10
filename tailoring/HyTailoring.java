@@ -12,6 +12,11 @@ public class HyTailoring extends DefaultTailoring {
     public boolean isSpywareEnabledByDefault() {
         return true;
     }
+
+    @Override
+    public boolean isDetailedSpywareEnabledByDefault() {
+        return true;
+    }
     
     @Override
     public String getUpdateCenterTitle() {

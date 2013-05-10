@@ -33,7 +33,7 @@ def standard_deployment(deployment_name, version, tailoring_file)
 end
 
 standard_deployment('tmc-netbeans', '0.3.14', 'GenericTailoring.java')
-standard_deployment('tmc-netbeans_hy', '0.3.14', 'HyTailoring.java')
+standard_deployment('tmc-netbeans_hy', '0.3.15', 'HyTailoring.java')
 standard_deployment('tmc-netbeans_mooc', '0.3.14', 'MoocTailoring.java')
 standard_deployment('tmc-netbeans_pk', '0.3.14', 'PkTailoring.java')
 
