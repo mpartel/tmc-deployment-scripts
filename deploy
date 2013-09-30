@@ -32,10 +32,10 @@ def standard_deployment(deployment_name, version, tailoring_file)
   end
 end
 
-standard_deployment('tmc-netbeans', '0.4.0', 'GenericTailoring.java')
-standard_deployment('tmc-netbeans_hy', '0.4.0', 'HyTailoring.java')
-standard_deployment('tmc-netbeans_mooc', '0.4.0', 'MoocTailoring.java')
-standard_deployment('tmc-netbeans_pk', '0.4.0', 'PkTailoring.java')
+standard_deployment('tmc-netbeans', '0.4.1', 'GenericTailoring.java')
+standard_deployment('tmc-netbeans_hy', '0.4.1', 'HyTailoring.java')
+standard_deployment('tmc-netbeans_mooc', '0.4.1', 'MoocTailoring.java')
+standard_deployment('tmc-netbeans_pk', '0.4.1', 'PkTailoring.java')
 
 
 def author_plugin_deployment(deployment_name, version, update_site_baseurl)
