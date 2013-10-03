@@ -1,60 +1,71 @@
 #!/usr/bin/env ruby
-
+ 
 require File.dirname(__FILE__) + '/tmc-deploy/tmc_deploy.rb'
-
+ 
 require './site.rb'
-
+ 
 WORK_DIR = File.realpath(File.dirname(__FILE__)) + '/work'
 STAGING_DIR = WORK_DIR + '/staging'
 PLUGIN_REPO = 'git://github.com/testmycode/tmc-netbeans.git'
-
+ 
 FileUtils.rm_rf(WORK_DIR)
 FileUtils.mkdir_p(WORK_DIR)
 FileUtils.rm_rf(STAGING_DIR)
 FileUtils.mkdir_p(STAGING_DIR)
-
-def standard_deployment(deployment_name, version, tailoring_file)
+ 
+def standard_deployment(deployment_name, version, tailoring_file, options = {})
   TmcDeploy.deployment(deployment_name, :work_dir => WORK_DIR) do |name|
     repo = git_clone(name, PLUGIN_REPO)
     repo.fetch('origin').reset_hard(version).clean
-    build_tmc_nb_plugin(name,
+    build_tmc_nb_plugin(name,{
       :tailoring_file => "../tailoring/#{tailoring_file}",
       :version => version,
-      :netbeans_dir => NB_DIR,
+      :netbeans_dir => NB_DIR_FOR_PLUGIN,
       :nbplatform_name => 'nb721',
       :zip => true,
       :installers => true,
-      :pack200 => false#true
+      :pack200 => true
+      }.merge(options)
     )
     stage_nb_plugin(name, STAGING_DIR)
     FileUtils.mkdir_p(UPDATE_SITE + '/' + name)
     move_dir_over(STAGING_DIR + '/updates', UPDATE_SITE + '/' + name)
   end
 end
-
-standard_deployment('tmc-netbeans', '0.4.0', 'GenericTailoring.java')
-standard_deployment('tmc-netbeans_hy', '0.4.0', 'HyTailoring.java')
-standard_deployment('tmc-netbeans_mooc', '0.4.0', 'MoocTailoring.java')
-standard_deployment('tmc-netbeans_pk', '0.4.0', 'PkTailoring.java')
-
-
+ 
+#standard_deployment('tmc-netbeans', '0.4.0', 'GenericTailoring.java')
+# after making sure, that these lines are correct, duplicate every line, or extract passing those params to a method.
+# like:
+# def deploy(deployment_name, version, tailoring_file)
+#   standard_deployment(deployment_name, version, tailoring_file, :netbeans_dir => NB_DIR_FOR_PLUGIN, :zip => false, :installers => false, :pack200 => false)
+#   standard_deployment(deployment_name, version, tailoring_file, :netbeans_dir => NB_DIR_FOR_TMCNETBEANS, :installers => true, :zip => true, :pack200 => false)
+# end
+ 
+standard_deployment('tmc-netbeans_hy', '0.4.0', 'HyTailoring.java', :netbeans_dir => NB_DIR_FOR_PLUGIN, :zip => false, :installers => false, :pack200 => false)
+standard_deployment('tmc-netbeans_hy', '0.4.0', 'HyTailoring.java', :netbeans_dir => NB_DIR_FOR_TMCNETBEANS, :installers => true, :zip => true, :pack200 => false)
+#standard_deployment('tmc-netbeans_mooc', '0.4.0', 'MoocTailoring.java')
+#standard_deployment('tmc-netbeans_pk', '0.4.0', 'PkTailoring.java')
+ 
+ 
+ 
+ 
 def author_plugin_deployment(deployment_name, version, update_site_baseurl)
   TmcDeploy.deployment(deployment_name, :work_dir => WORK_DIR) do |name|
     repo = git_clone(name, 'git://github.com/testmycode/tmc-netbeans-author.git')
     repo.fetch('origin').reset_hard(version).clean
-
+ 
     File.open(name + '/update_site.properties', 'wb') do |f|
       f.write("updates.base.url=" + update_site_baseurl)
     end
-
+ 
     build_tmc_nb_plugin(name,
       :version => version,
-      :netbeans_dir => NB_DIR,
+      :netbeans_dir => NB_DIR_FOR_PLUGIN,
       :nbplatform_name => 'nb721',
       :is_application => false,
       :plugin_update_site => true
     )
-
+ 
     mkdir_p(STAGING_DIR + '/updates')
     mv(name + '/build/fi-helsinki-cs-tmc-author.nbm', STAGING_DIR + '/updates/')
     mv(name + '/build/updates.xml', STAGING_DIR + '/updates/')
@@ -62,12 +73,12 @@ def author_plugin_deployment(deployment_name, version, update_site_baseurl)
     move_dir_over(STAGING_DIR + '/updates', UPDATE_SITE + '/' + name)
   end
 end
-
+ 
 author_plugin_deployment(
   'tmc-netbeans-author',
   '0.1.3',
   'http://update.testmycode.net/tmc-netbeans-author'
 )
-
-
+ 
+ 
 TmcDeploy.main(ARGV)
