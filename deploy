@@ -14,28 +14,55 @@ FileUtils.rm_rf(STAGING_DIR)
 FileUtils.mkdir_p(STAGING_DIR)
 
 def standard_deployment(deployment_name, version, tailoring_file, options = {})
+  options = {
+    :tailoring_file => "../tailoring/#{tailoring_file}",
+    :version => version,
+    :netbeans_dir => NB_DIR_FOR_PLUGIN,
+    :nbplatform_name => 'nb721',
+    :zip => true,
+    :installers => true,
+    :pack200 => PACK200,
+    :update_site => true,
+    :dest_name => deployment_name
+  }.merge(options)
+
   TmcDeploy.deployment(deployment_name, :work_dir => WORK_DIR) do |name|
     repo = git_clone(name, PLUGIN_REPO)
     repo.fetch('origin').reset_hard(version).clean
-    build_tmc_nb_plugin(name,{
-      :tailoring_file => "../tailoring/#{tailoring_file}",
-      :version => version,
-      :netbeans_dir => NB_DIR_FOR_PLUGIN,
-      :nbplatform_name => 'nb721',
-      :zip => true,
-      :installers => true,
-      :pack200 => true
-      }.merge(options)
-    )
-    stage_nb_plugin(name, STAGING_DIR)
-    FileUtils.mkdir_p(UPDATE_SITE + '/' + name)
-    move_dir_over(STAGING_DIR + '/updates', UPDATE_SITE + '/' + name)
+
+    build_tmc_nb_plugin(name, options)
+
+    stage_nb_plugin(name, STAGING_DIR) if options[:update_site]
+    stage_zip(name, STAGING_DIR) if options[:zip]
+    stage_installers(name, STAGING_DIR) if options[:installers]
+
+    if options[:update_site]
+      FileUtils.mkdir_p(UPDATE_SITE + '/' + options[:dest_name])
+      move_dir_over(STAGING_DIR + '/updates', UPDATE_SITE + '/' + options[:dest_name])
+    end
+
+    if options[:zip] || options[:installers]
+      FileUtils.mkdir_p(INSTALLER_SITE + '/' + options[:dest_name])
+      move_dir_over(STAGING_DIR + '/installers', INSTALLER_SITE + '/' + options[:dest_name])
+    end
   end
 end
 
 def deploy(deployment_name, version, tailoring_file)
-   standard_deployment(deployment_name, version, tailoring_file, :netbeans_dir => NB_DIR_FOR_PLUGIN, :zip => false, :installers => false, :pack200 => false)
-   standard_deployment(deployment_name, version, tailoring_file, :netbeans_dir => NB_DIR_FOR_TMCNETBEANS, :installers => true, :zip => true, :pack200 => false)
+  standard_deployment(deployment_name + '_plugin', version, tailoring_file,
+    :netbeans_dir => NB_DIR_FOR_PLUGIN,
+    :zip => false,
+    :installers => false,
+    :update_site => true,
+    :dest_name => deployment_name
+  )
+  standard_deployment(deployment_name + '_tmcbeans', version, tailoring_file,
+    :netbeans_dir => NB_DIR_FOR_TMCNETBEANS,
+    :installers => true,
+    :zip => true,
+    :update_site => false,
+    :dest_name => deployment_name
+  )
 end
 
 deploy('tmc-netbeans', '0.4.1', 'GenericTailoring.java')
