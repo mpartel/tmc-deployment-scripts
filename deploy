@@ -13,18 +13,19 @@ FileUtils.mkdir_p(WORK_DIR)
 FileUtils.rm_rf(STAGING_DIR)
 FileUtils.mkdir_p(STAGING_DIR)
 
-def standard_deployment(deployment_name, version, tailoring_file)
+def standard_deployment(deployment_name, version, tailoring_file, options = {})
   TmcDeploy.deployment(deployment_name, :work_dir => WORK_DIR) do |name|
     repo = git_clone(name, PLUGIN_REPO)
     repo.fetch('origin').reset_hard(version).clean
-    build_tmc_nb_plugin(name,
+    build_tmc_nb_plugin(name,{
       :tailoring_file => "../tailoring/#{tailoring_file}",
       :version => version,
-      :netbeans_dir => NB_DIR,
+      :netbeans_dir => NB_DIR_FOR_PLUGIN,
       :nbplatform_name => 'nb721',
       :zip => true,
       :installers => true,
-      :pack200 => false#true
+      :pack200 => true
+      }.merge(options)
     )
     stage_nb_plugin(name, STAGING_DIR)
     FileUtils.mkdir_p(UPDATE_SITE + '/' + name)
@@ -32,10 +33,15 @@ def standard_deployment(deployment_name, version, tailoring_file)
   end
 end
 
-standard_deployment('tmc-netbeans', '0.4.1', 'GenericTailoring.java')
-standard_deployment('tmc-netbeans_hy', '0.4.1', 'HyTailoring.java')
-standard_deployment('tmc-netbeans_mooc', '0.4.1', 'MoocTailoring.java')
-standard_deployment('tmc-netbeans_pk', '0.4.1', 'PkTailoring.java')
+def deploy(deployment_name, version, tailoring_file)
+   standard_deployment(deployment_name, version, tailoring_file, :netbeans_dir => NB_DIR_FOR_PLUGIN, :zip => false, :installers => false, :pack200 => false)
+   standard_deployment(deployment_name, version, tailoring_file, :netbeans_dir => NB_DIR_FOR_TMCNETBEANS, :installers => true, :zip => true, :pack200 => false)
+end
+
+deploy('tmc-netbeans', '0.4.1', 'GenericTailoring.java')
+deploy('tmc-netbeans_hy', '0.4.1', 'HyTailoring.java')
+deploy('tmc-netbeans_mooc', '0.4.1', 'MoocTailoring.java')
+deploy('tmc-netbeans_pk', '0.4.1', 'PkTailoring.java')
 
 
 def author_plugin_deployment(deployment_name, version, update_site_baseurl)
@@ -49,7 +55,7 @@ def author_plugin_deployment(deployment_name, version, update_site_baseurl)
 
     build_tmc_nb_plugin(name,
       :version => version,
-      :netbeans_dir => NB_DIR,
+      :netbeans_dir => NB_DIR_FOR_PLUGIN,
       :nbplatform_name => 'nb721',
       :is_application => false,
       :plugin_update_site => true
