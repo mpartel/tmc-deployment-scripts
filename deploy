@@ -18,7 +18,7 @@ def standard_deployment(deployment_name, version, tailoring_file, options = {})
     :tailoring_file => "../tailoring/#{tailoring_file}",
     :version => version,
     :netbeans_dir => NB_DIR_FOR_PLUGIN,
-    :nbplatform_name => 'nb74',
+    :nbplatform_name => 'nb80',
     :zip => true,
     :installers => true,
     :pack200 => PACK200,
@@ -65,9 +65,10 @@ def deploy(deployment_name, version, tailoring_file)
   )
 end
 
-deploy('tmc-netbeans', '0.6.4', 'GenericTailoring.java')
-deploy('tmc-netbeans_hy', '0.6.4', 'HyTailoring.java')
-deploy('tmc-netbeans_mooc', '0.6.4', 'MoocTailoring.java')
+deploy('tmc-netbeans', '0.7.0', 'GenericTailoring.java')
+deploy('tmc-netbeans_hy', '0.7.1', 'HyTailoring.java')
+deploy('tmc-netbeans_test', '0.7.1', 'TestTailoring.java')
+deploy('tmc-netbeans_mooc', '0.7.0', 'MoocTailoring.java')
 deploy('tmc-netbeans_pk', '0.6.4', 'PkTailoring.java')
 
 
@@ -83,7 +84,7 @@ def author_plugin_deployment(deployment_name, version, update_site_baseurl)
     build_tmc_nb_plugin(name,
       :version => version,
       :netbeans_dir => NB_DIR_FOR_PLUGIN,
-      :nbplatform_name => 'nb74',
+      :nbplatform_name => 'nb80',
       :is_application => false,
       :plugin_update_site => true
     )
