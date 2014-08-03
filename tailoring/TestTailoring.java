@@ -2,7 +2,7 @@ package fi.helsinki.cs.tmc.tailoring;
 
 import java.util.Locale;
 
-public class HyTailoring extends DefaultTailoring {
+public class TestTailoring extends DefaultTailoring {
     @Override
     public String getDefaultServerUrl() {
         return "https://tmc.mooc.fi/test";
