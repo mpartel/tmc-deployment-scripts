@@ -67,7 +67,7 @@ end
 
 deploy('tmc-netbeans', '0.8.2', 'GenericTailoring.java')
 deploy('tmc-netbeans_hy', '0.8.2', 'HyTailoring.java')
-deploy('tmc-netbeans_test', '0.8.2', 'TestTailoring.java')
+deploy('tmc-netbeans_test', '0.8.3', 'TestTailoring.java')
 deploy('tmc-netbeans_mooc', '0.8.2', 'MoocTailoring.java')
 deploy('tmc-netbeans_pk', '0.8.2', 'PkTailoring.java')
 
