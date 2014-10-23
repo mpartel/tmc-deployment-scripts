@@ -67,7 +67,7 @@ end
 
 deploy('tmc-netbeans', '0.8.4', 'GenericTailoring.java')
 deploy('tmc-netbeans_hy', '0.8.5', 'HyTailoring.java')
-deploy('tmc-netbeans_hy_tktl', '0.8.5', 'HyTktlTailoring.java')
+deploy('tmc-netbeans_hy_tktl', '0.8.5', 'HyTktlTailoring.java')  # temporary workaround for UH IT problems. to be removed at some point. will have to set up a 301 for the update site
 deploy('tmc-netbeans_hy_staging', 'HEAD', 'HyTailoring.java')
 deploy('tmc-netbeans_test', '0.8.5', 'TestTailoring.java')
 deploy('tmc-netbeans_mooc', '0.8.4', 'MoocTailoring.java')
