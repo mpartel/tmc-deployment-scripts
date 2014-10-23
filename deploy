@@ -65,11 +65,13 @@ def deploy(deployment_name, version, tailoring_file)
   )
 end
 
-deploy('tmc-netbeans', '0.8.2', 'GenericTailoring.java')
-deploy('tmc-netbeans_hy', '0.8.2', 'HyTailoring.java')
-deploy('tmc-netbeans_test', '0.8.3', 'TestTailoring.java')
-deploy('tmc-netbeans_mooc', '0.8.2', 'MoocTailoring.java')
-deploy('tmc-netbeans_pk', '0.8.2', 'PkTailoring.java')
+deploy('tmc-netbeans', '0.8.4', 'GenericTailoring.java')
+deploy('tmc-netbeans_hy', '0.8.4', 'HyTailoring.java')
+deploy('tmc-netbeans_hy_tktl', '0.8.4', 'HyTktlTailoring.java')
+deploy('tmc-netbeans_hy_staging', 'HEAD', 'HyTailoring.java')
+deploy('tmc-netbeans_test', '0.8.4', 'TestTailoring.java')
+deploy('tmc-netbeans_mooc', '0.8.4', 'MoocTailoring.java')
+deploy('tmc-netbeans_pk', '0.8.4', 'PkTailoring.java')
 
 
 def author_plugin_deployment(deployment_name, version, update_site_baseurl)
