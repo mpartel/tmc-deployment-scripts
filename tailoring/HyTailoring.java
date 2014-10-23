@@ -5,7 +5,7 @@ import java.util.Locale;
 public class HyTailoring extends DefaultTailoring {
     @Override
     public String getDefaultServerUrl() {
-        return "http://tmc.mooc.fi/hy";
+        return "https://tmc.mooc.fi/hy";
     }
     
     @Override
