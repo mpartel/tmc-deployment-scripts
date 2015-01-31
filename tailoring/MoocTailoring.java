@@ -5,9 +5,9 @@ import java.util.Locale;
 public class MoocTailoring extends DefaultTailoring {
     @Override
     public String getDefaultServerUrl() {
-        return "http://tmc.mooc.fi/mooc";
+        return "https://tmc.mooc.fi/mooc";
     }
-    
+
     @Override
     public String getUpdateCenterTitle() {
         return "TMC Mooc Edition Updates";
