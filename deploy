@@ -65,13 +65,13 @@ def deploy(deployment_name, version, tailoring_file)
   )
 end
 
-deploy('tmc-netbeans', '0.8.7', 'GenericTailoring.java')
-deploy('tmc-netbeans_hy', '0.8.7', 'HyTailoring.java')
-deploy('tmc-netbeans_hy_tktl', '0.8.7', 'HyTktlTailoring.java')  # temporary workaround for UH IT problems. to be removed at some point. will have to set up a 301 for the update site
+deploy('tmc-netbeans', '0.8.8', 'GenericTailoring.java')
+deploy('tmc-netbeans_hy', '0.8.8', 'HyTailoring.java')
+deploy('tmc-netbeans_hy_tktl', '0.8.8', 'HyTktlTailoring.java')  # temporary workaround for UH IT problems. to be removed at some point. will have to set up a 301 for the update site
 deploy('tmc-netbeans_hy_staging', 'HEAD', 'HyTailoring.java')
-deploy('tmc-netbeans_test', '0.8.7', 'TestTailoring.java')
-deploy('tmc-netbeans_mooc', '0.8.7', 'MoocTailoring.java')
-deploy('tmc-netbeans_pk', '0.8.7', 'PkTailoring.java')
+deploy('tmc-netbeans_test', '0.8.8', 'TestTailoring.java')
+deploy('tmc-netbeans_mooc', '0.8.8', 'MoocTailoring.java')
+deploy('tmc-netbeans_pk', '0.8.8', 'PkTailoring.java')
 
 
 def author_plugin_deployment(deployment_name, version, update_site_baseurl)
