@@ -7,7 +7,7 @@ public class TestTailoring extends DefaultTailoring {
     public String getDefaultServerUrl() {
         return "https://tmc.mooc.fi/staging";
     }
-    
+
     @Override
     public boolean isSpywareEnabledByDefault() {
         return true;
@@ -17,7 +17,7 @@ public class TestTailoring extends DefaultTailoring {
     public boolean isDetailedSpywareEnabledByDefault() {
         return true;
     }
-    
+
     @Override
     public String getUpdateCenterTitle() {
         return "TMC TEST Edition Updates";
@@ -27,12 +27,12 @@ public class TestTailoring extends DefaultTailoring {
     public String getUpdateCenterUrl() {
         return "http://update.testmycode.net/tmc-netbeans_test/updates.xml";
     }
-    
+
     @Override
     public Locale[] getAvailableErrorMsgLocales() {
         return new Locale[] { new Locale("en"), new Locale("fi") };
     }
-    
+
     @Override
     public Locale getDefaultErrorMsgLocale() {
         return new Locale("fi");
