@@ -65,13 +65,14 @@ def deploy(deployment_name, version, tailoring_file)
   )
 end
 
-deploy('tmc-netbeans', '0.8.16', 'GenericTailoring.java')
-deploy('tmc-netbeans_hy', '0.8.16', 'HyTailoring.java')
-deploy('tmc-netbeans_hy_tktl', '0.8.10', 'HyTktlTailoring.java')  # not so temporary workaround for UH IT problems. to be removed at some point. will have to set up a 301 for the update site
-deploy('tmc-netbeans_hy_staging', 'HEAD', 'HyTailoring.java')
-deploy('tmc-netbeans_test', '0.8.16', 'TestTailoring.java')
-deploy('tmc-netbeans_mooc', '0.8.16', 'MoocTailoring.java')
-deploy('tmc-netbeans_pk', '0.8.16', 'PkTailoring.java')
+deploy('tmc-netbeans', '0.9.1', 'GenericTailoring.java')
+deploy('tmc-netbeans_hy', '0.8.18', 'HyTailoring.java')
+deploy('tmc-netbeans_hy_tktl', '0.9.2', 'HyTktlTailoring.java')  # not so temporary workaround for UH IT problems. to be removed at some point. will have to set up a 301 for the update site
+deploy('tmc-netbeans_hy_staging', 'backport', 'HyTailoring.java')
+deploy('tmc-netbeans_org_mooc', '1.1.6', 'OrgMoocTailoring.java')
+deploy('tmc-netbeans_test', '1.1.7', 'TestTailoring.java')
+deploy('tmc-netbeans_mooc', '0.8.18', 'MoocTailoring.java')
+deploy('tmc-netbeans_pk', '0.9.1', 'PkTailoring.java')
 
 
 def author_plugin_deployment(deployment_name, version, update_site_baseurl)
@@ -86,7 +87,7 @@ def author_plugin_deployment(deployment_name, version, update_site_baseurl)
     build_tmc_nb_plugin(name,
       :version => version,
       :netbeans_dir => NB_DIR_FOR_PLUGIN,
-      :nbplatform_name => 'nb80',
+      :nbplatform_name => 'nb81',
       :is_application => false,
       :plugin_update_site => true
     )
